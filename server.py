@@ -60,10 +60,10 @@ def handle_connection(conn: socket, addr: Tuple[str, int], log: LogWriter, debug
         if debug:
             print(data)
         if data[0:4] != PKT_HDR:
-            log.error("Invalid header!")
+            log.warn("Invalid header!")
         test_run = unpack("<Q", data[4:12])[0]
         signal = data[12]
-        if signal:
+        if not signal:
             log.success(LOG_MSG.format(test_run, signal))
         else:
             log.error(LOG_MSG.format(test_run, signal))
