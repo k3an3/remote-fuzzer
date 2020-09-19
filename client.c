@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#define SERVER_PORT 1337
+#define FUZZ_PORT 1337
 
 #pragma pack(1)
 struct Packet {
@@ -40,25 +40,25 @@ uint32_t main(uint32_t argc, uint8_t* argv[]) {
     char *server_host, *env_port, *env_run;
 
     if (argc < 2) {
-        printf("Usage: %s program_to_fuzz program_args\n", argv[0]);
+        fprintf(stderr, "Usage: %s program_to_fuzz program_args\n", argv[0]);
         return 0;
     }
 
-    if (!(server_host = getenv("SERVER_HOST"))) {
-        puts("Error: Specify SERVER_HOST environment variable.");
+    if (!(server_host = getenv("FUZZ_HOST"))) {
+        fprintf(stderr, "Error: Specify FUZZ_HOST environment variable.");
         return 1;
     }
 
-    if ((env_port = getenv("SERVER_PORT")) != NULL) {
+    if ((env_port = getenv("FUZZ_PORT")) != NULL) {
         server_port = atoi(env_port);
     } else {
-        server_port = SERVER_PORT;
+        server_port = FUZZ_PORT;
     }
 
     if ((env_run = getenv("TEST_RUN")) != NULL) {
         packet.test_run = atoll(env_run);
     } else {
-        puts("Didn't find TEST_RUN environment variable, or it wasn't a valid integer.");
+        fprintf(stderr, "Didn't find TEST_RUN environment variable, or it wasn't a valid integer.");
         return 1;
     }
 
