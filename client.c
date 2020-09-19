@@ -22,7 +22,6 @@ struct Packet {
 uint32_t run_program(uint8_t* args[]) {
     pid_t child;
     uint32_t status;
-    puts(args[0]);
 
     if (!(child = fork()) > 0) {
         execv(args[0], (char* const*)args+1);
@@ -65,7 +64,6 @@ uint32_t main(uint32_t argc, uint8_t* argv[]) {
 
     packet.signal = run_program(argv+1);
     memcpy(packet.header, "FUZZ", 4);
-    printf("test_run: %lld, signal: %d\n", packet.test_run, packet.signal);
 
     struct sockaddr_in serv_addr = {};
     uint32_t sock;
