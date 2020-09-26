@@ -11,7 +11,7 @@ from typing import Tuple
 
 import colorful as colorful
 
-LOG_MSG = "Test run: {}, result: {}"
+LOG_MSG = "Test run: {}, result: {:<3}"
 PKT_HDR = b"FUZZ"
 
 
@@ -66,7 +66,7 @@ def handle_connection(conn: socket, addr: Tuple[str, int], log: LogWriter, debug
         if not signal:
             log.success(LOG_MSG.format(test_run, signal))
         else:
-            log.error(LOG_MSG.format(test_run, signal))
+            log.error(LOG_MSG.format(test_run, signal) + " HIT")
     except:
         print_exc()
     finally:
